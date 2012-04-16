@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 /**
  *
@@ -101,14 +100,16 @@ public class Util {
         return colourised;
     }
 
-    public static double getNearest(Location l1, List<Location> llist) {
+    public static Location getNearest(Location l1, List<Location> llist) {
         double min = 0D;
+        Location loc = null;
         for (Location l : llist) {
             if (l1.distance(l) < min) {
                 min = l1.distance(l);
+                loc = l;
             }
         }
-        return min;
+        return loc;
     }
     
     public static List<Location> fromConfigToLocationList(FileConfiguration config) {
@@ -117,23 +118,5 @@ public class Util {
             locs.add(new Location(Bukkit.getWorld(config.getString("spawns." + lstr + ".world")), config.getDouble("spawns." + lstr + ".x"), config.getDouble("spawns." + lstr + ".y"), config.getDouble("spawns." + lstr + ".z"), (float)config.getDouble("spawns." + lstr + ".yaw"), (float)config.getDouble("spawns." + lstr + ".pitch")));
         } 
         return locs;
-    }
-    
-        
-    public static void setSpawn(FileConfiguration config, World world, double x, double y, double z, float yaw, float pitch, Player p) {
-        config.set(world.getName() + ".x", x);
-        config.set(world.getName() + ".y", y);
-        config.set(world.getName() + ".z", z);
-        config.set(world.getName() + ".yaw", yaw);
-        config.set(world.getName() + ".pitch", pitch);
-    }
-    
-    public static void setGlobalSpawn(FileConfiguration config, World world, double x, double y, double z, float yaw, float pitch, Player p) {
-        config.set("global.world", world.getName());
-        config.set("global.x", x);
-        config.set("global.y", y);
-        config.set("global.z", z);
-        config.set("global.yaw", yaw);
-        config.set("global.pitch", pitch);
     }
 }

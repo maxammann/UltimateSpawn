@@ -1,5 +1,6 @@
 package com.maino.p000ison.dev.ultimatespawn.util;
 
+import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -110,30 +111,42 @@ public class Util {
         }
         return min;
     }
-    
+
     public static List<Location> fromConfigToLocationList(FileConfiguration config) {
         List<Location> locs = new ArrayList<Location>();
         for (String lstr : config.getConfigurationSection("spawns").getKeys(false)) {
-            locs.add(new Location(Bukkit.getWorld(config.getString("spawns." + lstr + ".world")), config.getDouble("spawns." + lstr + ".x"), config.getDouble("spawns." + lstr + ".y"), config.getDouble("spawns." + lstr + ".z"), (float)config.getDouble("spawns." + lstr + ".yaw"), (float)config.getDouble("spawns." + lstr + ".pitch")));
-        } 
+            locs.add(new Location(Bukkit.getWorld(config.getString("spawns." + lstr + ".world")), config.getDouble("spawns." + lstr + ".x"), config.getDouble("spawns." + lstr + ".y"), config.getDouble("spawns." + lstr + ".z"), (float) config.getDouble("spawns." + lstr + ".yaw"), (float) config.getDouble("spawns." + lstr + ".pitch")));
+        }
         return locs;
     }
-    
-        
-    public static void setSpawn(FileConfiguration config, World world, double x, double y, double z, float yaw, float pitch, Player p) {
-        config.set(world.getName() + ".x", x);
-        config.set(world.getName() + ".y", y);
-        config.set(world.getName() + ".z", z);
-        config.set(world.getName() + ".yaw", yaw);
-        config.set(world.getName() + ".pitch", pitch);
+
+    public static void setWorldSpawn(StorageHandler config, World world, double x, double y, double z, float yaw, float pitch) {
+        config.getConfig().set(world.getName() + ".x", x);
+        config.getConfig().set(world.getName() + ".y", y);
+        config.getConfig().set(world.getName() + ".z", z);
+        config.getConfig().set(world.getName() + ".yaw", yaw);
+        config.getConfig().set(world.getName() + ".pitch", pitch);
+        config.save();
     }
-    
-    public static void setGlobalSpawn(FileConfiguration config, World world, double x, double y, double z, float yaw, float pitch, Player p) {
-        config.set("global.world", world.getName());
-        config.set("global.x", x);
-        config.set("global.y", y);
-        config.set("global.z", z);
-        config.set("global.yaw", yaw);
-        config.set("global.pitch", pitch);
+
+    public static void setLocalSpawn(StorageHandler config, String name, World world, double x, double y, double z, float yaw, float pitch) {
+        config.getConfig().set("spawns." + name + ".world", world.getName());
+        config.getConfig().set("spawns." + name + ".x", x);
+        config.getConfig().set("spawns." + name + ".y", y);
+        config.getConfig().set("spawns." + name + ".z", z);
+        config.getConfig().set("spawns." + name + ".yaw", yaw);
+        config.getConfig().set("spawns." + name + ".pitch", pitch);
+        config.save();
+
+    }
+
+    public static void setGlobalSpawn(StorageHandler config, World world, double x, double y, double z, float yaw, float pitch) {
+        config.getConfig().set("global.world", world.getName());
+        config.getConfig().set("global.x", x);
+        config.getConfig().set("global.y", y);
+        config.getConfig().set("global.z", z);
+        config.getConfig().set("global.yaw", yaw);
+        config.getConfig().set("global.pitch", pitch);
+        config.save();
     }
 }

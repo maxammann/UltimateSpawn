@@ -1,0 +1,15 @@
+author: p000ison
+database: false
+description: tmp
+main: com.maino.p000ison.dev.ultimatespawn.UltimateSpawn
+name: UltimateSpawn
+startup: postworld
+url: http://dev.bukkit.org/server-mods/DreamZ/
+version: '0.2'
+commands:
+  ulspawn:
+    description: UltimateSpawn commands.
+  spawn:
+    description: UltimateSpawn commands.
+  lspawn:
+    description: UltimateSpawn commands.

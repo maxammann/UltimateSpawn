@@ -19,9 +19,9 @@ public class HelpCommand extends BasicCommand {
         super("Help");
         this.plugin = plugin;
         setDescription("Displays the help menu");
-        setUsage("/trademe help §8[page#]");
+        setUsage("/ulspawn help §8[page#]");
         setArgumentRange(0, 1);
-        setIdentifiers("trademe", "help");
+        setIdentifiers("ulspawn", "help");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class HelpCommand extends BasicCommand {
         if (page >= numPages || page < 0) {
             page = 0;
         }
-        sender.sendMessage("§c-----[ " + "§fTradeMe Help <" + (page + 1) + "/" + numPages + ">§c ]-----");
+        sender.sendMessage("§c-----[ " + "§fUltimateSpawn Help <" + (page + 1) + "/" + numPages + ">§c ]-----");
         int start = page * CMDS_PER_PAGE;
         int end = start + CMDS_PER_PAGE;
         if (end > commands.size()) {

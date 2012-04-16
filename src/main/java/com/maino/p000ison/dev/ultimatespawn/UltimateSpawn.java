@@ -5,6 +5,7 @@ import com.maino.p000ison.dev.ultimatespawn.handlers.SettingsHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.commands.HelpCommand;
 import com.maino.p000ison.dev.ultimatespawn.handlers.commands.ReloadCommand;
+import com.maino.p000ison.dev.ultimatespawn.handlers.commands.SetCommand;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
 import java.util.logging.Logger;
 import net.milkbowl.vault.permission.Permission;
@@ -47,10 +48,9 @@ public class UltimateSpawn extends JavaPlugin {
     private void registerCommands() {
         commandHandler = new CommandHandler();
         
-
         getCommandHandler().addCommand(new HelpCommand(this));
         getCommandHandler().addCommand(new ReloadCommand(this));
-
+        getCommandHandler().addCommand(new SetCommand(this));
     }
 
     private boolean setupPermissions() {

@@ -2,6 +2,7 @@ package com.maino.p000ison.dev.ultimatespawn;
 
 import com.maino.p000ison.dev.ultimatespawn.handlers.CommandHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.SettingsHandler;
+import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.commands.HelpCommand;
 import com.maino.p000ison.dev.ultimatespawn.handlers.commands.ReloadCommand;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
@@ -23,12 +24,14 @@ public class UltimateSpawn extends JavaPlugin {
     private Util util;
     private static final Logger log = Logger.getLogger("Minecraft");
     private SettingsHandler settingsHandler;
+    private StorageHandler storageHandler;
     private static Permission perms = null;
     private CommandHandler commandHandler = new CommandHandler();
 
     @Override
     public void onEnable() {
         settingsHandler = new SettingsHandler(this);
+        storageHandler = new StorageHandler(this);
         util = new Util();
         registerCommands();
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -43,6 +46,7 @@ public class UltimateSpawn extends JavaPlugin {
 
     private void registerCommands() {
         commandHandler = new CommandHandler();
+        
 
         getCommandHandler().addCommand(new HelpCommand(this));
         getCommandHandler().addCommand(new ReloadCommand(this));
@@ -86,5 +90,12 @@ public class UltimateSpawn extends JavaPlugin {
      */
     public CommandHandler getCommandHandler() {
         return commandHandler;
+    }
+
+    /**
+     * @return the storageHandler
+     */
+    public StorageHandler getStorageHandler() {
+        return storageHandler;
     }
 }

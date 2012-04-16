@@ -100,14 +100,16 @@ public class Util {
         return colourised;
     }
 
-    public static double getNearest(Location l1, List<Location> llist) {
+    public static Location getNearest(Location l1, List<Location> llist) {
         double min = 0D;
+        Location loc = null;
         for (Location l : llist) {
             if (l1.distance(l) < min) {
                 min = l1.distance(l);
+                loc = l;
             }
         }
-        return min;
+        return loc;
     }
     
     public static List<Location> fromConfigToLocationList(FileConfiguration config) {

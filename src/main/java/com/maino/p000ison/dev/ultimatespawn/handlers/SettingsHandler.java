@@ -3,7 +3,6 @@ package com.maino.p000ison.dev.ultimatespawn.handlers;
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -39,7 +38,7 @@ public final class SettingsHandler {
                 getConfig().options().copyDefaults(true);
                 getConfig().load(main);
             } catch (Exception ex) {
-                plugin.getLogger().log(Level.WARNING, "Loading the config failed!:{0}", ex.getMessage());
+                plugin.getLogger().log(Level.WARNING, String.format("Loading the config.yml failed!: %s", ex.getMessage()));
             }
         } else {
             getConfig().options().copyDefaults(true);
@@ -53,7 +52,7 @@ public final class SettingsHandler {
         try {
             getConfig().save(main);
         } catch (IOException ex) {
-            plugin.getLogger().log(Level.WARNING, "Saving the config failed!:{0}", ex.getMessage());
+            plugin.getLogger().log(Level.WARNING, String.format("Saving config.yml failed!: %s", ex.getMessage()));
         }
     }
 

@@ -1,5 +1,6 @@
 package com.maino.p000ison.dev.ultimatespawn.events;
 
+import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,9 +16,13 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  * @author maino
  */
 public class USSpawnEvents implements Listener {
-
+    private UltimateSpawn plugin;
+    public USSpawnEvents(UltimateSpawn plugin) {
+        this.plugin = plugin;
+    }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
+        plugin.getSettingsHandler().getPlayerRespawn();
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -27,7 +32,9 @@ public class USSpawnEvents implements Listener {
         boolean exist = file.exists();
         
         if (!exist) {
-            
+            if (plugin.getSettingsHandler().getPlayerFirstJoin().equalsIgnoreCase("global")) {
+                player.teleport(globalspawn);
+            }
         }
     }
 }

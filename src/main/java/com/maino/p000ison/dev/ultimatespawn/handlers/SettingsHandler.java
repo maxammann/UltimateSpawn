@@ -16,7 +16,7 @@ public final class SettingsHandler {
     private UltimateSpawn plugin;
     private File main;
     private FileConfiguration config;
-    private String spawntype;
+    private String PlayerFirstJoin;
 
     /**
      *
@@ -45,8 +45,7 @@ public final class SettingsHandler {
             getConfig().options().copyDefaults(true);
 
         }
-        spawntype = config.getString("spawnertype");
-
+        PlayerFirstJoin = config.getString("PlayerFirstJoin");
         save();
     }
 
@@ -73,9 +72,9 @@ public final class SettingsHandler {
     }
 
     /**
-     * @return the spawntype
+     * @return the PlayerFistJoin
      */
-    public String getSpawntype() {
-        return spawntype;
+    public String getPlayerFirstJoin() {
+        return PlayerFirstJoin;
     }
 }

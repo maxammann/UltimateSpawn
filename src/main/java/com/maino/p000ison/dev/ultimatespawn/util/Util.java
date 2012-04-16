@@ -1,5 +1,6 @@
 package com.maino.p000ison.dev.ultimatespawn.util;
 
+import com.maino.p000ison.dev.ultimatespawn.handlers.SettingsHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -102,40 +103,47 @@ public class Util {
         return colourised;
     }
 
-    public static double getNearest(Location l1, List<Location> llist) {
+    public static Location getNearest(Location l1, List<Location> llist) {
         double min = 0D;
+        Location loc = null;
         for (Location l : llist) {
             if (l1.distance(l) < min) {
                 min = l1.distance(l);
+                loc = l;
             }
         }
-        return min;
+        return loc;
     }
 
     public static List<Location> fromConfigToLocationList(FileConfiguration config) {
         List<Location> locs = new ArrayList<Location>();
-        for (String lstr : config.getConfigurationSection("spawns").getKeys(false)) {
-            locs.add(new Location(Bukkit.getWorld(config.getString("spawns." + lstr + ".world")), config.getDouble("spawns." + lstr + ".x"), config.getDouble("spawns." + lstr + ".y"), config.getDouble("spawns." + lstr + ".z"), (float) config.getDouble("spawns." + lstr + ".yaw"), (float) config.getDouble("spawns." + lstr + ".pitch")));
+        for (String lstr : config.getConfigurationSection("local").getKeys(false)) {
+            locs.add(new Location(Bukkit.getWorld(config.getString("local." + lstr + ".world"))
+                    , config.getDouble("spawns." + lstr + ".x")
+                    , config.getDouble("spawns." + lstr + ".y")
+                    , config.getDouble("spawns." + lstr + ".z")
+                    , (float) config.getDouble("spawns." + lstr + ".yaw")
+                    , (float) config.getDouble("spawns." + lstr + ".pitch")));
         }
         return locs;
     }
 
     public static void setWorldSpawn(StorageHandler config, World world, double x, double y, double z, float yaw, float pitch) {
-        config.getConfig().set(world.getName() + ".x", x);
-        config.getConfig().set(world.getName() + ".y", y);
-        config.getConfig().set(world.getName() + ".z", z);
-        config.getConfig().set(world.getName() + ".yaw", yaw);
-        config.getConfig().set(world.getName() + ".pitch", pitch);
+        config.getConfig().set("worlds." + world.getName() + ".x", x);
+        config.getConfig().set("worlds." + world.getName() + ".y", y);
+        config.getConfig().set("worlds." + world.getName() + ".z", z);
+        config.getConfig().set("worlds." + world.getName() + ".yaw", yaw);
+        config.getConfig().set("worlds." + world.getName() + ".pitch", pitch);
         config.save();
     }
 
     public static void setLocalSpawn(StorageHandler config, String name, World world, double x, double y, double z, float yaw, float pitch) {
-        config.getConfig().set("spawns." + name + ".world", world.getName());
-        config.getConfig().set("spawns." + name + ".x", x);
-        config.getConfig().set("spawns." + name + ".y", y);
-        config.getConfig().set("spawns." + name + ".z", z);
-        config.getConfig().set("spawns." + name + ".yaw", yaw);
-        config.getConfig().set("spawns." + name + ".pitch", pitch);
+        config.getConfig().set("local." + name + ".world", world.getName());
+        config.getConfig().set("local." + name + ".x", x);
+        config.getConfig().set("local." + name + ".y", y);
+        config.getConfig().set("local." + name + ".z", z);
+        config.getConfig().set("local." + name + ".yaw", yaw);
+        config.getConfig().set("local." + name + ".pitch", pitch);
         config.save();
 
     }
@@ -148,5 +156,23 @@ public class Util {
         config.getConfig().set("global.yaw", yaw);
         config.getConfig().set("global.pitch", pitch);
         config.save();
+    }
+    
+    public static Location getGlobalLocation(SettingsHandler settings) {
+        return new Location(Bukkit.getWorld(settings.getConfig().getString("global.world"))
+                , settings.getConfig().getDouble("global.x")
+                , settings.getConfig().getDouble("global.y")
+                , settings.getConfig().getDouble("global.z")
+                , (float)settings.getConfig().getDouble("global.yaw")
+                , (float)settings.getConfig().getDouble("global.pitch"));
+    }
+    
+    public static Location getWorldLocation(SettingsHandler settings, String world) {
+        return new Location(Bukkit.getWorld(world)
+                , settings.getConfig().getDouble("worlds." + world + ".x")
+                , settings.getConfig().getDouble("worlds." + world + ".y")
+                , settings.getConfig().getDouble("worlds." + world + ".z")
+                , (float)settings.getConfig().getDouble("worlds." + world + "..yaw")
+                , (float)settings.getConfig().getDouble("worlds." + world + ".pitch"));
     }
 }

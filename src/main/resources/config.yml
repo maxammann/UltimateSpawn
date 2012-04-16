@@ -1,0 +1,16 @@
+# UltimateSpawn config
+
+# events:
+# possible settings: global, local, nearestspawn
+onSpawnCommand: global
+onLocalSpawnCommand: local
+onDeath: nearestspawn
+
+# settings
+# possible settings: exact, random
+global:
+  spawnmethod: exact
+local:
+  spawnmethod: random
+nearestspawn:
+  spawnmethod: exact

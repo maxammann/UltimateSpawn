@@ -16,6 +16,7 @@ public final class SettingsHandler {
     private UltimateSpawn plugin;
     private File main;
     private FileConfiguration config;
+    private String spawntype;
 
     /**
      *
@@ -44,6 +45,7 @@ public final class SettingsHandler {
             getConfig().options().copyDefaults(true);
 
         }
+        spawntype = config.getString("spawnertype");
 
         save();
     }
@@ -68,5 +70,12 @@ public final class SettingsHandler {
      */
     public FileConfiguration getConfig() {
         return config;
+    }
+
+    /**
+     * @return the spawntype
+     */
+    public String getSpawntype() {
+        return spawntype;
     }
 }

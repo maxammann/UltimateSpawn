@@ -104,10 +104,10 @@ public class Util {
     }
 
     public static Location getNearest(Location l1, List<Location> llist) {
-        double min = 0D;
+        double min = llist.get(0).distance(l1);
         Location loc = null;
         for (Location l : llist) {
-            if (l1.distance(l) < min) {
+            if (l.distance(l1) <= min) {
                 min = l1.distance(l);
                 loc = l;
             }
@@ -119,11 +119,11 @@ public class Util {
         List<Location> locs = new ArrayList<Location>();
         for (String lstr : config.getConfigurationSection("local").getKeys(false)) {
             locs.add(new Location(Bukkit.getWorld(config.getString("local." + lstr + ".world"))
-                    , config.getDouble("spawns." + lstr + ".x")
-                    , config.getDouble("spawns." + lstr + ".y")
-                    , config.getDouble("spawns." + lstr + ".z")
-                    , (float) config.getDouble("spawns." + lstr + ".yaw")
-                    , (float) config.getDouble("spawns." + lstr + ".pitch")));
+                    , config.getDouble("local." + lstr + ".x")
+                    , config.getDouble("local." + lstr + ".y")
+                    , config.getDouble("local." + lstr + ".z")
+                    , (float) config.getDouble("local." + lstr + ".yaw")
+                    , (float) config.getDouble("local." + lstr + ".pitch")));
         }
         return locs;
     }

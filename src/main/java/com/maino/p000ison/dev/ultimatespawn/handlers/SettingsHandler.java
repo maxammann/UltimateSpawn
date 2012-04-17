@@ -17,6 +17,7 @@ public final class SettingsHandler {
     private File main;
     private FileConfiguration config;
     private String PlayerFirstJoin;
+    private String PlayerRespawn;
 
     /**
      *
@@ -46,6 +47,8 @@ public final class SettingsHandler {
 
         }
         PlayerFirstJoin = config.getString("PlayerFirstJoin");
+        PlayerRespawn = config.getString("PlayerRespawn");
+        
         save();
     }
 
@@ -76,5 +79,12 @@ public final class SettingsHandler {
      */
     public String getPlayerFirstJoin() {
         return PlayerFirstJoin;
+    }
+
+    /**
+     * @return the PlayerRespawn
+     */
+    public String getPlayerRespawn() {
+        return PlayerRespawn;
     }
 }

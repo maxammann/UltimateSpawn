@@ -1,17 +1,17 @@
 package com.maino.p000ison.dev.ultimatespawn;
 
+import com.maino.p000ison.dev.ultimatespawn.events.USSpawnEvents;
 import com.maino.p000ison.dev.ultimatespawn.handlers.CommandHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.SettingsHandler;
 import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
-import com.maino.p000ison.dev.ultimatespawn.handlers.commands.HelpCommand;
-import com.maino.p000ison.dev.ultimatespawn.handlers.commands.ReloadCommand;
-import com.maino.p000ison.dev.ultimatespawn.handlers.commands.SetCommand;
+import com.maino.p000ison.dev.ultimatespawn.handlers.commands.*;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
 import java.util.logging.Logger;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,10 +35,14 @@ public class UltimateSpawn extends JavaPlugin {
         storageHandler = new StorageHandler(this);
         util = new Util();
         registerCommands();
+        
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             setupPermissions();
             log.info("Hooked Vault for Permission-Support!");
         }
+        
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new USSpawnEvents(this), this);
     }
 
     @Override
@@ -51,6 +55,8 @@ public class UltimateSpawn extends JavaPlugin {
         getCommandHandler().addCommand(new HelpCommand(this));
         getCommandHandler().addCommand(new ReloadCommand(this));
         getCommandHandler().addCommand(new SetCommand(this));
+        getCommandHandler().addCommand(new SpawnCommand(this));
+        getCommandHandler().addCommand(new LocalSpawnCommand(this));
     }
 
     private boolean setupPermissions() {

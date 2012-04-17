@@ -1,6 +1,7 @@
 package com.maino.p000ison.dev.ultimatespawn.events;
 
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
+import com.maino.p000ison.dev.ultimatespawn.util.Util;
 import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,7 +23,13 @@ public class USSpawnEvents implements Listener {
     }
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        plugin.getSettingsHandler().getPlayerRespawn();
+        Player player = event.getPlayer();
+        if (plugin.getSettingsHandler().getPlayerFirstJoin().equalsIgnoreCase("global")) {
+                player.teleport(Util.getGlobalLocation(plugin.getStorageHandler()));
+            }
+        else if (plugin.getSettingsHandler().getPlayerFirstJoin().equalsIgnoreCase("local")) {
+            player.teleport(Util.getWorldLocation(plugin.getStorageHandler()));
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -33,8 +40,12 @@ public class USSpawnEvents implements Listener {
         
         if (!exist) {
             if (plugin.getSettingsHandler().getPlayerFirstJoin().equalsIgnoreCase("global")) {
-                player.teleport(globalspawn);
+                player.teleport(Util.getGlobalLocation(plugin.getStorageHandler()));
             }
+            else if (plugin.getSettingsHandler().getPlayerFirstJoin().equalsIgnoreCase("local")) {
+                player.teleport(Util.getWorldLocation(plugin.getStorageHandler()));
+             }
         }
     }
+
 }

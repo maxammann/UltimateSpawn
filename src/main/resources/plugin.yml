@@ -11,5 +11,5 @@ commands:
     description: UltimateSpawn commands.
   spawn:
     description: UltimateSpawn commands.
-  lspawn:
+  localspawn:
     description: UltimateSpawn commands.

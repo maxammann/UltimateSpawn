@@ -158,7 +158,7 @@ public class Util {
         config.save();
     }
     
-    public static Location getGlobalLocation(SettingsHandler settings) {
+    public static Location getGlobalLocation(StorageHandler settings) {
         return new Location(Bukkit.getWorld(settings.getConfig().getString("global.world"))
                 , settings.getConfig().getDouble("global.x")
                 , settings.getConfig().getDouble("global.y")
@@ -167,7 +167,7 @@ public class Util {
                 , (float)settings.getConfig().getDouble("global.pitch"));
     }
     
-    public static Location getWorldLocation(SettingsHandler settings, String world) {
+    public static Location getWorldLocation(StorageHandler settings, String world) {
         return new Location(Bukkit.getWorld(world)
                 , settings.getConfig().getDouble("worlds." + world + ".x")
                 , settings.getConfig().getDouble("worlds." + world + ".y")

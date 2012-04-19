@@ -3,8 +3,6 @@ package com.maino.p000ison.dev.ultimatespawn.events;
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,24 +28,32 @@ public class USSpawnEvents implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         if (plugin.getSettingsHandler().getPlayerRespawn().equalsIgnoreCase("global")) {
-            event.setRespawnLocation(Util.getGlobalLocation(plugin.getStorageHandler()));
+            if (plugin.getStorageHandler().getConfig().isSet("global.world")) {
+                event.setRespawnLocation(Util.getGlobalSpawn(plugin.getStorageHandler()));
+            }
         } else if (plugin.getSettingsHandler().getPlayerRespawn().equalsIgnoreCase("world")) {
-            event.setRespawnLocation(Util.getWorldLocation(plugin.getStorageHandler(), player.getWorld().getName()));
+            if (plugin.getStorageHandler().getConfig().isSet(player.getWorld().getName() + ".x")) {
+                event.setRespawnLocation(Util.getWorldSpawn(plugin.getStorageHandler(), player.getWorld().getName()));
+            }
         } else if (plugin.getSettingsHandler().getPlayerRespawn().equalsIgnoreCase("local")) {
-            event.setRespawnLocation(Util.getNearest(player.getLocation(), Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig())));
+            if (!Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig()).isEmpty()) {
+                event.setRespawnLocation(Util.getNearest(player.getLocation(), Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig())));
+            }
+        } else {
+            player.sendMessage("Please check the config!");
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        File file = new File(Bukkit.getWorlds().get(0) + "/players/" + player.getName() + ".dat");
+        File file = new File(Bukkit.getWorlds().get(0).getName() + "/players/" + player.getName() + ".dat");
         boolean exist = file.exists();
 
         if (!exist) {
-
-            player.teleport(Util.getGlobalLocation(plugin.getStorageHandler()));
-
+            if (plugin.getStorageHandler().getConfig().isSet("global.world")) {
+                player.teleport(Util.getGlobalSpawn(plugin.getStorageHandler()));
+            }
         }
     }
 }

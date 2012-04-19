@@ -1,6 +1,6 @@
 package com.maino.p000ison.dev.ultimatespawn.util;
 
-import com.maino.p000ison.dev.ultimatespawn.handlers.SettingsHandler;
+import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import com.maino.p000ison.dev.ultimatespawn.handlers.StorageHandler;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -158,7 +158,7 @@ public class Util {
         config.save();
     }
     
-    public static Location getGlobalLocation(StorageHandler settings) {
+    public static Location getGlobalSpawn(StorageHandler settings) {
         return new Location(Bukkit.getWorld(settings.getConfig().getString("global.world"))
                 , settings.getConfig().getDouble("global.x")
                 , settings.getConfig().getDouble("global.y")
@@ -167,12 +167,20 @@ public class Util {
                 , (float)settings.getConfig().getDouble("global.pitch"));
     }
     
-    public static Location getWorldLocation(StorageHandler settings, String world) {
+    public static Location getWorldSpawn(StorageHandler settings, String world) {
         return new Location(Bukkit.getWorld(world)
                 , settings.getConfig().getDouble("worlds." + world + ".x")
                 , settings.getConfig().getDouble("worlds." + world + ".y")
                 , settings.getConfig().getDouble("worlds." + world + ".z")
-                , (float)settings.getConfig().getDouble("worlds." + world + "..yaw")
+                , (float)settings.getConfig().getDouble("worlds." + world + ".yaw")
                 , (float)settings.getConfig().getDouble("worlds." + world + ".pitch"));
+    }
+    public static Location getGroupSpawn(StorageHandler settings, Player player) {
+        return new Location(Bukkit.getWorld(player.getWorld().getName())
+                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".x")
+                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".y")
+                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".z")
+                , (float)settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".yaw")
+                , (float)settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".pitch"));
     }
 }

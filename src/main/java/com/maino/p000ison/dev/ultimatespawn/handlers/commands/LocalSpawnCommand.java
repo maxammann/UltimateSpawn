@@ -28,7 +28,11 @@ public class LocalSpawnCommand extends BasicCommand {
     public boolean execute(CommandSender sender, String identifier, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.teleport(Util.getWorldLocation(plugin.getStorageHandler(), player.getWorld().getName()));
+            if (!Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig()).isEmpty()) {
+                player.teleport(Util.getNearest(player.getLocation(), Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig())));
+            } else {
+                player.teleport(player.getWorld().getSpawnLocation());
+            }
         } else {
             sender.sendMessage("Console cant do this!");
         }

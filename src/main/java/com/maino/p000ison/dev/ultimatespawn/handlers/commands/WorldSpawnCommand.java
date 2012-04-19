@@ -2,7 +2,6 @@ package com.maino.p000ison.dev.ultimatespawn.handlers.commands;
 
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,28 +10,28 @@ import org.bukkit.entity.Player;
  * @author p000ison
  * @author maino
  */
-public class SpawnCommand extends BasicCommand {
+public class WorldSpawnCommand extends BasicCommand {
 
     private UltimateSpawn plugin = null;
 
-    public SpawnCommand(UltimateSpawn plugin) {
-        super("Spawn");
+    public WorldSpawnCommand(UltimateSpawn plugin) {
+        super("WorldSpawn");
         this.plugin = plugin;
-        setDescription("Spawn.");
-        setUsage("/spawn");
+        setDescription("WorldSpawn.");
+        setUsage("/worldspawn");
         setArgumentRange(0, 0);
-        setIdentifiers("spawn");
-        setPermission("ulspawn.command.reload");
+        setIdentifiers("worldspawn");
+        setPermission("ulspawn.command.worldspawn");
     }
 
     @Override
     public boolean execute(CommandSender sender, String identifier, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (plugin.getStorageHandler().getConfig().isSet("global.world")) {
-                player.teleport(Util.getGlobalSpawn(plugin.getStorageHandler()));
+             if (plugin.getStorageHandler().getConfig().isSet(player.getWorld().getName() + ".x")) {
+                player.teleport(Util.getWorldSpawn(plugin.getStorageHandler(), player.getWorld().getName()));
             } else {
-                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                player.teleport(player.getWorld().getSpawnLocation());
             }
         } else {
             sender.sendMessage("Console cant do this!");

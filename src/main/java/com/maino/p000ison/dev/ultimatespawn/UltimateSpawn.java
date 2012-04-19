@@ -76,6 +76,13 @@ public class UltimateSpawn extends JavaPlugin {
         }
         return player.hasPermission(permission);
     }
+    
+    public static String getPrimaryGroup(Player player) {
+        if (perms != null) {
+            return perms.getPrimaryGroup(player);
+        }
+        return "null";
+    }
 
     /**
      * @return the util

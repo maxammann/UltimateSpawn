@@ -22,7 +22,7 @@ public class SpawnCommand extends BasicCommand {
         setUsage("/spawn");
         setArgumentRange(0, 0);
         setIdentifiers("spawn");
-        setPermission("ulspawn.command.reload");
+        setPermission("ulspawn.command.spawn");
     }
 
     @Override

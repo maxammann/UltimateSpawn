@@ -4,8 +4,7 @@ description: tmp
 main: com.maino.p000ison.dev.ultimatespawn.UltimateSpawn
 name: UltimateSpawn
 startup: postworld
-url: http://dev.bukkit.org/server-mods/DreamZ/
-version: '0.2'
+version: '1.0'
 commands:
   ulspawn:
     description: UltimateSpawn commands.
@@ -13,3 +12,28 @@ commands:
     description: UltimateSpawn commands.
   localspawn:
     description: UltimateSpawn commands.
+permissions:
+  ulspawn.command.reload:
+    description: tmp
+  ulspawn.command.spawn:
+    description: tmp
+  ulspawn.command.set:
+    description: tmp
+  ulspawn.command.worldspawn:
+    description: tmp
+  ulspawn.command.localspawn:
+    description: tmp
+  ulspawn.admin.*:
+    description: Default Admin Permissions.
+    default: op
+    children:
+      ulspawn.command.set: true
+      ulspawn.command.reload: true
+      ulspawn.user.*: true
+  ulspawn.user.*:
+    description: Default Player Permissions.
+    default: true
+    children:
+      ulspawn.command.spawn: true
+      ulspawn.command.worldspawn: true
+      ulspawn.command.localspawn: true

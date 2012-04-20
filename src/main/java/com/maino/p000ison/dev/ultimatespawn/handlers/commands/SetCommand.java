@@ -21,7 +21,7 @@ public class SetCommand extends BasicCommand {
         setUsage("/ulspawn set");
         setArgumentRange(1, 2);
         setIdentifiers("set");
-        setPermission("ulspawn.command.reload");
+        setPermission("ulspawn.command.set");
     }
 
     @Override

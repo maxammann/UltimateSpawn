@@ -12,6 +12,20 @@ commands:
     description: UltimateSpawn commands.
   localspawn:
     description: UltimateSpawn commands.
+  worldspawn:
+    description: UltimateSpawn commands.
+  groupspawn:
+    description: UltimateSpawn commands.
+  lspawn:
+    description: UltimateSpawn commands.
+  wspawn:
+    description: UltimateSpawn commands.
+  gspawn:
+    description: UltimateSpawn commands.
+  normalspawn:
+    description: UltimateSpawn commands.
+  nspawn:
+    description: UltimateSpawn commands.
 permissions:
   ulspawn.command.reload:
     description: tmp
@@ -22,6 +36,12 @@ permissions:
   ulspawn.command.worldspawn:
     description: tmp
   ulspawn.command.localspawn:
+    description: tmp
+  ulspawn.command.groupspawn:
+    description: tmp
+  ulspawn.command.randomspawn:
+    description: tmp
+  ulspawn.command.normalspawn:
     description: tmp
   ulspawn.admin.*:
     description: Default Admin Permissions.
@@ -37,3 +57,4 @@ permissions:
       ulspawn.command.spawn: true
       ulspawn.command.worldspawn: true
       ulspawn.command.localspawn: true
+      ulspawn.command.groupspawn: true

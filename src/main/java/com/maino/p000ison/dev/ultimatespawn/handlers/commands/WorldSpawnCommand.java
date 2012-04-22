@@ -20,7 +20,7 @@ public class WorldSpawnCommand extends BasicCommand {
         setDescription("WorldSpawn.");
         setUsage("/worldspawn");
         setArgumentRange(0, 0);
-        setIdentifiers("worldspawn");
+        setIdentifiers("worldspawn", "wspawn");
         setPermission("ulspawn.command.worldspawn");
     }
 

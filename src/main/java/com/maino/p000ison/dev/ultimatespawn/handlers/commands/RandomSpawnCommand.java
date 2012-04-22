@@ -2,6 +2,7 @@ package com.maino.p000ison.dev.ultimatespawn.handlers.commands;
 
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,29 +11,25 @@ import org.bukkit.entity.Player;
  * @author p000ison
  * @author maino
  */
-public class LocalSpawnCommand extends BasicCommand {
+public class RandomSpawnCommand extends BasicCommand {
 
     private UltimateSpawn plugin = null;
 
-    public LocalSpawnCommand(UltimateSpawn plugin) {
-        super("LocalSpawn");
+    public RandomSpawnCommand(UltimateSpawn plugin) {
+        super("RandomSpawn");
         this.plugin = plugin;
-        setDescription("LocalSpawn.");
-        setUsage("/localspawn");
+        setDescription("RandomSpawn.");
+        setUsage("/randomspawn");
         setArgumentRange(0, 0);
-        setIdentifiers("localspawn", "lspawn");
-        setPermission("ulspawn.command.localspawn");
+        setIdentifiers("randomspawn", "rspawn");
+        setPermission("ulspawn.command.randomspawn");
     }
 
     @Override
     public boolean execute(CommandSender sender, String identifier, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig()).isEmpty()) {
-                player.teleport(Util.getNearest(plugin.getStorageHandler(), player.getLocation(), Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig())));
-            } else {
-                player.teleport(player.getWorld().getSpawnLocation());
-            }
+            player.teleport(Util.randomSpawn(player.getWorld(), -500, 500, -500, 500));
         } else {
             sender.sendMessage("Console cant do this!");
         }

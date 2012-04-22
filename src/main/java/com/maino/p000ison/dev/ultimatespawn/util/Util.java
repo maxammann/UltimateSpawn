@@ -29,7 +29,7 @@ public class Util {
     /**
      * @return the random location to teleport
      */
-    public Location randomSpawn(World world, double minx, double maxx, double minz, double maxz) {
+    public static Location randomSpawn(World world, double minx, double maxx, double minz, double maxz) {
         Location loc;
         do {
             double X = (minx + (Math.random() * (maxx - minx)));
@@ -84,10 +84,11 @@ public class Util {
      * @return true if the Location loc is valid
      */
     public static boolean checkDreamSpawnLocation(Location loc, World world, List<Material> preventedSpawnBlocks) {
-        for (Iterator it = preventedSpawnBlocks.iterator(); it.hasNext();) {
+        for (Iterator<Material> it = preventedSpawnBlocks.iterator(); it.hasNext();) {
+            Material mat = it.next();
             for (int i = -1; i <= +1; i++) {
                 Location blockloc = new Location(world, loc.getBlockX(), loc.getBlockY() + i, loc.getBlockZ());
-                if (blockloc.getBlock().getType().equals(Material.valueOf(((String) it.next()).toUpperCase())) || !checkEmty(loc.getX(), loc.getZ(), world)) {
+                if (blockloc.getBlock().getType().equals(mat) || !checkEmty(loc.getX(), loc.getZ(), world)) {
                     return false;
                 }
             }
@@ -103,13 +104,17 @@ public class Util {
         return colourised;
     }
 
-    public static Location getNearest(Location l1, List<Location> llist) {
-        double min = llist.get(0).distance(l1);
+    public static Location getNearest(StorageHandler config, Location l1, List<Location> llist) {
+        double min = 50000;
         Location loc = null;
         for (Location l : llist) {
-            if (l.distance(l1) <= min) {
-                min = l1.distance(l);
-                loc = l;
+            if (l1.getWorld().equals(l.getWorld())) {
+                if (l.distance(l1) <= min) {
+                    min = l1.distance(l);
+                    loc = l;
+                }
+            } else {
+                loc = getGlobalSpawn(config);
             }
         }
         return loc;
@@ -118,12 +123,7 @@ public class Util {
     public static List<Location> fromConfigToLocationList(FileConfiguration config) {
         List<Location> locs = new ArrayList<Location>();
         for (String lstr : config.getConfigurationSection("local").getKeys(false)) {
-            locs.add(new Location(Bukkit.getWorld(config.getString("local." + lstr + ".world"))
-                    , config.getDouble("local." + lstr + ".x")
-                    , config.getDouble("local." + lstr + ".y")
-                    , config.getDouble("local." + lstr + ".z")
-                    , (float) config.getDouble("local." + lstr + ".yaw")
-                    , (float) config.getDouble("local." + lstr + ".pitch")));
+            locs.add(new Location(Bukkit.getWorld(config.getString("local." + lstr + ".world")), config.getDouble("local." + lstr + ".x"), config.getDouble("local." + lstr + ".y"), config.getDouble("local." + lstr + ".z"), (float) config.getDouble("local." + lstr + ".yaw"), (float) config.getDouble("local." + lstr + ".pitch")));
         }
         return locs;
     }
@@ -157,30 +157,25 @@ public class Util {
         config.getConfig().set("global.pitch", pitch);
         config.save();
     }
-    
+
     public static Location getGlobalSpawn(StorageHandler settings) {
-        return new Location(Bukkit.getWorld(settings.getConfig().getString("global.world"))
-                , settings.getConfig().getDouble("global.x")
-                , settings.getConfig().getDouble("global.y")
-                , settings.getConfig().getDouble("global.z")
-                , (float)settings.getConfig().getDouble("global.yaw")
-                , (float)settings.getConfig().getDouble("global.pitch"));
+        return new Location(Bukkit.getWorld(settings.getConfig().getString("global.world")), settings.getConfig().getDouble("global.x"), settings.getConfig().getDouble("global.y"), settings.getConfig().getDouble("global.z"), (float) settings.getConfig().getDouble("global.yaw"), (float) settings.getConfig().getDouble("global.pitch"));
     }
-    
+
     public static Location getWorldSpawn(StorageHandler settings, String world) {
-        return new Location(Bukkit.getWorld(world)
-                , settings.getConfig().getDouble("worlds." + world + ".x")
-                , settings.getConfig().getDouble("worlds." + world + ".y")
-                , settings.getConfig().getDouble("worlds." + world + ".z")
-                , (float)settings.getConfig().getDouble("worlds." + world + ".yaw")
-                , (float)settings.getConfig().getDouble("worlds." + world + ".pitch"));
+        return new Location(Bukkit.getWorld(world), settings.getConfig().getDouble("worlds." + world + ".x"), settings.getConfig().getDouble("worlds." + world + ".y"), settings.getConfig().getDouble("worlds." + world + ".z"), (float) settings.getConfig().getDouble("worlds." + world + ".yaw"), (float) settings.getConfig().getDouble("worlds." + world + ".pitch"));
     }
+
     public static Location getGroupSpawn(StorageHandler settings, Player player) {
-        return new Location(Bukkit.getWorld(player.getWorld().getName())
-                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".x")
-                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".y")
-                , settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".z")
-                , (float)settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".yaw")
-                , (float)settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".pitch"));
+        return new Location(Bukkit.getWorld(player.getWorld().getName()), settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".x"), settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".y"), settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".z"), (float) settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".yaw"), (float) settings.getConfig().getDouble("groups." + UltimateSpawn.getPrimaryGroup(player) + ".pitch"));
+    }
+
+    public static void setGroupSpawn(StorageHandler config, String group, double x, double y, double z, float yaw, float pitch) {
+        config.getConfig().set("groups." + group + ".x", x);
+        config.getConfig().set("groups." + group + ".y", y);
+        config.getConfig().set("groups." + group + ".z", z);
+        config.getConfig().set("groups." + group + ".yaw", yaw);
+        config.getConfig().set("groups." + group + ".pitch", pitch);
+        config.save();
     }
 }

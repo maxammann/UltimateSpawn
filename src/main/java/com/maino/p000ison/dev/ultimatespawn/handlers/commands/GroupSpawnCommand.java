@@ -2,6 +2,7 @@ package com.maino.p000ison.dev.ultimatespawn.handlers.commands;
 
 import com.maino.p000ison.dev.ultimatespawn.UltimateSpawn;
 import com.maino.p000ison.dev.ultimatespawn.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,28 +11,29 @@ import org.bukkit.entity.Player;
  * @author p000ison
  * @author maino
  */
-public class LocalSpawnCommand extends BasicCommand {
+public class GroupSpawnCommand extends BasicCommand {
 
     private UltimateSpawn plugin = null;
 
-    public LocalSpawnCommand(UltimateSpawn plugin) {
-        super("LocalSpawn");
+    public GroupSpawnCommand(UltimateSpawn plugin) {
+        super("Groupspawn");
         this.plugin = plugin;
-        setDescription("LocalSpawn.");
-        setUsage("/localspawn");
+        setDescription("Groupspawn.");
+        setUsage("/groupspawn");
         setArgumentRange(0, 0);
-        setIdentifiers("localspawn", "lspawn");
-        setPermission("ulspawn.command.localspawn");
+        setIdentifiers("groupspawn", "gspawn");
+        setPermission("ulspawn.command.groupspawn");
     }
 
     @Override
     public boolean execute(CommandSender sender, String identifier, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig()).isEmpty()) {
-                player.teleport(Util.getNearest(plugin.getStorageHandler(), player.getLocation(), Util.fromConfigToLocationList(plugin.getStorageHandler().getConfig())));
+            System.out.println(UltimateSpawn.getPrimaryGroup(player));
+            if (plugin.getStorageHandler().getConfig().isSet("groups." + UltimateSpawn.getPrimaryGroup(player))) {
+                player.teleport(Util.getGroupSpawn(plugin.getStorageHandler(), player));
             } else {
-                player.teleport(player.getWorld().getSpawnLocation());
+                player.sendMessage("No group spawn set.");
             }
         } else {
             sender.sendMessage("Console cant do this!");

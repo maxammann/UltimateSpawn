@@ -1,6 +1,7 @@
 # UltimateSpawn config
 
 # events:
-# possible settings: global, world, local
-SpawnCommand: global
-PlayerRespawn: local
+# possible settings: global, world, local, random, groups
+PlayerRespawn: group
+# possible settings: global, random
+PlayerFirstJoin: group

@@ -18,7 +18,7 @@ public class SetCommand extends BasicCommand {
         super("Set");
         this.plugin = plugin;
         setDescription("Sets the Spawns.");
-        setUsage("/ulspawn set");
+        setUsage("/ulspawn set <global/world/local/group>");
         setArgumentRange(1, 2);
         setIdentifiers("set");
         setPermission("ulspawn.command.set");
@@ -35,11 +35,17 @@ public class SetCommand extends BasicCommand {
                 } else if (args[0].equals("world")) {
                     Util.setWorldSpawn(plugin.getStorageHandler(), player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch());
                     player.sendMessage("world");
+                } else if (args[0].equals("local")) {
+                    player.sendMessage("local");
+                    Util.setLocalSpawn(plugin.getStorageHandler(), player.getWorld().getName(), player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch());
                 }
             } else if (args.length == 2) {
                 if (args[0].equals("local")) {
                     player.sendMessage("local");
                     Util.setLocalSpawn(plugin.getStorageHandler(), args[1], player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                } else if (args[0].equals("group")) {
+                    player.sendMessage("local");
+                    Util.setGroupSpawn(plugin.getStorageHandler(), args[1], player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch());
                 }
             }
         } else {

@@ -57,6 +57,9 @@ public class UltimateSpawn extends JavaPlugin {
         getCommandHandler().addCommand(new SetCommand(this));
         getCommandHandler().addCommand(new SpawnCommand(this));
         getCommandHandler().addCommand(new LocalSpawnCommand(this));
+        getCommandHandler().addCommand(new WorldSpawnCommand(this));
+        getCommandHandler().addCommand(new GroupSpawnCommand(this));
+        getCommandHandler().addCommand(new NormalSpawnCommand(this));
     }
 
     private boolean setupPermissions() {
